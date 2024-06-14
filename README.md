@@ -11,8 +11,7 @@ This package includes:
 `GraphicsKit` uses [Swift Package Manager](https://www.swift.org/documentation/package-manager/) as its build tool. If you want to import in your own project, it's as simple as adding a `dependencies` clause to your `Package.swift`:
 ```swift
 dependencies: [
-    .package(name: "GraphicsKit", 
-             path: "https://github.com/Vaida12345/GraphicsKit")
+    .package(url: "https://github.com/Vaida12345/GraphicsKit.git", branch: "main")
 ]
 ```
 and then adding the appropriate module to your target dependencies.
