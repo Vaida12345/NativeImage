@@ -1,6 +1,6 @@
 //
 //  NativeImage Structure.swift
-//  The Stratum Module - NativeImage
+//
 //
 //  Created by Vaida on 4/13/22.
 //  Copyright © 2019 - 2024 Vaida. All rights reserved.
@@ -52,10 +52,10 @@ public extension NativeImage {
         self.init(cgImage: cgImage)
     }
     
-    /// Initializes a `NativeImage` with the contents at the specified `FinderItem`.
+    /// Initializes a `NativeImage` with the contents at the specified file.
     ///
     /// - Parameters:
-    ///   - source: The `FinderItem` representing the location of the asset.
+    ///   - source: The file representing the location of the asset.
     ///
     /// - Returns: The `NativeImage` instance initialized with the data at the passed-in `source` or `nil` if the object is not readable.
     @inlinable
@@ -78,7 +78,7 @@ public extension NativeImage {
     /// A `quality` value of 1.0 specifies to use lossless compression if destination format supports it. A value of 0.0 implies to use maximum compression.
     ///
     /// - Parameters:
-    ///   - option: The format of the image.
+    ///   - format: The format of the image.
     ///   - quality: The image compression quality.
     ///
     /// - throws: ``CoreGraphics/CGImage/DataError``
@@ -95,8 +95,8 @@ public extension NativeImage {
     /// Write a `NativeImage` as in the format of `option` to the `destination`.
     ///
     /// - Parameters:
-    ///   - destination: The `FinderItem` representing the path to save the image.
-    ///   - option: The format of the image, pass `nil` to auto infer from the extension name of `destination`.
+    ///   - destination: The file representing the path to save the image.
+    ///   - format: The format of the image, pass `nil` to auto infer from the extension name of `destination`.
     ///   - quality: The image compression quality.
     func write(to destination: URL, format: ImageFormatOption? = nil, quality: Double = 1) throws {
         let _option = format != nil ? format! : try NativeImage.ImageFormatOption.inferredFrom(extension: destination.pathExtension)

@@ -1,6 +1,6 @@
 //
 //  CoreGraphicsContext Extensions.swift
-//  The Stratum Module - NativeImage
+//
 //
 //  Created by Vaida on 9/19/22.
 //  Copyright © 2019 - 2024 Vaida. All rights reserved.

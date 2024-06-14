@@ -1,6 +1,6 @@
 //
 //  CoreGraphics Image Extensions.swift
-//  The Stratum Module - NativeImage
+//
 //
 //  Created by Vaida on 7/19/22.
 //  Copyright © 2019 - 2024 Vaida. All rights reserved.
@@ -37,7 +37,7 @@ public extension CGImage {
     /// A `quality` value of 1.0 specifies to use lossless compression if destination format supports it. A value of 0.0 implies to use maximum compression.
     ///
     /// - Parameters:
-    ///   - option: The format of the image.
+    ///   - format: The format of the image.
     ///   - quality: The quality of image compression.
     ///
     /// - throws: ``DataError``
@@ -109,12 +109,10 @@ public extension CGImage {
             description
         }
         
-        /// - Invariant: This is inherited from ``GenericError/description``
         public var errorDescription: String? {
             description
         }
         
-        /// - Invariant: This is inherited from ``GenericError/message``
         public var failureReason: String? {
             self.message
         }
@@ -138,9 +136,6 @@ public extension CGImage {
     /// Embed the image in a square.
     ///
     /// It changes the canvas size into a square of `max(width, height)`.
-    ///
-    /// - Parameters:
-    ///   - preset: The preset to use, pass `nil` to use the default one.
     @inlinable
     func embedInSquare() -> CGImage? {
         if self.size.isSquare { return self }
@@ -159,7 +154,7 @@ public extension CGImage {
     ///
     /// > Important:
     /// >
-    /// > The method should be rarely used. To change the size of a ``NativeImage-76lnr``, use
+    /// > The method should be rarely used. To change the size of a ``NativeImage``, use
     /// >
     /// > ```swift
     /// > image.size = CGSize(x: Double, y: Double)
@@ -167,7 +162,6 @@ public extension CGImage {
     ///
     /// - Parameters:
     ///   - newSize: The changed size of image.
-    ///   - preset: The preset to use, pass `nil` to use the default one.
     ///
     /// - Returns: The `CGImage`, which is resized.
     @inlinable
@@ -185,8 +179,8 @@ public extension CGImage {
     /// A `quality` value of 1.0 specifies to use lossless compression if destination format supports it. A value of 0.0 implies to use maximum compression.
     ///
     /// - Parameters:
-    ///   - destination: The `FinderItem` representing the path to save the image.
-    ///   - option: The format of the image, pass `nil` to auto infer from the extension name of `destination`.
+    ///   - destination: The file representing the path to save the image.
+    ///   - format: The format of the image, pass `nil` to auto infer from the extension name of `destination`.
     ///   - quality: The image compression quality.
     func write(to destination: URL, format: NativeImage.ImageFormatOption? = nil, quality: CGFloat = 1) throws {
         let _option = format != nil ? format! : try NativeImage.ImageFormatOption.inferredFrom(extension: destination.pathExtension)
@@ -211,6 +205,7 @@ public extension CGImage {
     /// The function would perform any necessary rescaling. Some borders may be cropped.
     ///
     /// - Parameters:
+    ///   - size: The container size
     ///   - type: Pass `nil` if you do not want to use the `vision` framework.
     ///
     /// ## Topics

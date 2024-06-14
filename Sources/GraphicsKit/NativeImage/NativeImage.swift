@@ -1,6 +1,6 @@
 //
 //  NativeImage.swift
-//  The Stratum Module - NativeImage
+//
 //
 //  Created by Vaida on 4/7/22.
 //  Copyright © 2019 - 2024 Vaida. All rights reserved.
@@ -40,10 +40,6 @@ public extension NativeImage {
     }
     
     /// Initializes and returns the image object with the specified Quartz image reference.
-    ///
-    /// ## Topics
-    /// ### Optional Initializer
-    /// - ``AppKit/NSImage/init(cgImage:)-2bscx``
     @inlinable
     convenience init(cgImage: CGImage) {
         self.init(cgImage: cgImage, size: cgImage.size)

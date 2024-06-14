@@ -1,6 +1,6 @@
 //
 //  CoreGraphics Extensions.swift
-//  The Stratum Module
+//
 //
 //  Created by Vaida on 5/23/22.
 //  Copyright © 2019 - 2024 Vaida. All rights reserved.
@@ -33,7 +33,7 @@ public extension CGPoint {
     ///
     /// - Parameters:
     ///   - lhs: The first value to add.
-    ///   - lhs: The second value to add.
+    ///   - rhs: The second value to add.
     @inlinable
     static func + (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
         CGPoint(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
@@ -51,7 +51,7 @@ public extension CGPoint {
     ///
     /// - Parameters:
     ///   - lhs: A vector value.
-    ///   - lhs: The value to subtract from `lhs`.
+    ///   - rhs: The value to subtract from `lhs`.
     @inlinable
     static func - (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
         CGPoint(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
