@@ -60,7 +60,7 @@ public extension View {
     
     /// Render the view.
     ///
-    /// - Important: The returned image is **always** bitmap image, to render a `pdf`, use ``render(to:format:scale:)`` instead.
+    /// - Important: The returned image is **always** bitmap image, to render a `pdf`, use `render(to:format:scale:)` instead.
     ///
     /// - Parameters:
     ///   - scale: The scale to the view
