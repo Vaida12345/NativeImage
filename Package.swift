@@ -5,8 +5,14 @@ import PackageDescription
 
 let package = Package(
     name: "GraphicsKit",
-    platforms: [.macOS(.v10_15), .iOS(.v13), .tvOS(.v13), .watchOS(.v6), .macCatalyst(.v13)],
-    products: [
+    platforms: [
+        .macOS(.v10_15),
+        .iOS(.v13),
+        .tvOS(.v13),
+        .watchOS(.v6),
+        .macCatalyst(.v13),
+        .visionOS(.v1)
+    ], products: [
         .library(name: "GraphicsKit", targets: ["GraphicsKit"]),
     ], targets: [
         .target(name: "GraphicsKit"),

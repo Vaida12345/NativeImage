@@ -2,6 +2,19 @@
 
 Extended CoreGraphics functionalities & Native Image.
 
+@Metadata {
+    @PageColor(purple)
+    
+    @SupportedLanguage(swift)
+    
+    @Available(macOS,       introduced: 10.15)
+    @Available(iOS,         introduced: 13.0)
+    @Available(watchOS,     introduced:  6.0)
+    @Available(tvOS,        introduced: 13.0)
+    @Available(visionOS,    introduced:  1.0)
+    @Available(macCatalyst, introduced: 13.0)
+}
+
 ## Overview
 
 This package comes with extended CoreGraphics functionalities & platform independent Image wrapper: ``NativeImage``
@@ -12,7 +25,7 @@ This package comes with extended CoreGraphics functionalities & platform indepen
 `GraphicsKit` uses [Swift Package Manager](https://www.swift.org/documentation/package-manager/) as its build tool. If you want to import in your own project, it's as simple as adding a `dependencies` clause to your `Package.swift`:
 ```swift
 dependencies: [
-.package(url: "https://github.com/Vaida12345/GraphicsKit.git", branch: "main")
+    .package(url: "https://github.com/Vaida12345/GraphicsKit.git", branch: "main")
 ]
 ```
 and then adding the appropriate module to your target dependencies.
