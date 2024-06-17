@@ -192,3 +192,44 @@ public extension CGSize {
     }
     
 }
+
+
+extension CGRect {
+    
+    /// Returns a point at the given position.
+    public func point(at position: Position) -> CGPoint {
+        switch position {
+        case .topLeading:
+            self.origin
+        case .top:
+            self.origin + CGPoint(x: self.width / 2, y: 0)
+        case .topTrailing:
+            self.origin + CGPoint(x: self.width, y: 0)
+        case .leading:
+            self.origin + CGPoint(x: 0, y: self.height / 2)
+        case .center:
+            self.origin + CGPoint(x: self.width / 2, y: self.height / 2)
+        case .trailing:
+            self.origin + CGPoint(x: self.width, y: self.height / 2)
+        case .bottomLeading:
+            self.origin + CGPoint(x: 0, y: self.height)
+        case .bottom:
+            self.origin + CGPoint(x: self.width / 2, y: self.height)
+        case .bottomTrailing:
+            self.origin + CGPoint(x: self.width, y: self.height)
+        }
+    }
+    
+    public enum Position {
+        case topLeading
+        case top
+        case topTrailing
+        case leading
+        case center
+        case trailing
+        case bottomLeading
+        case bottom
+        case bottomTrailing
+    }
+    
+}
