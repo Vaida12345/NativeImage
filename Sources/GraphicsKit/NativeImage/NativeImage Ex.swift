@@ -23,6 +23,15 @@ public extension Image {
     
 }
 
+public extension Image {
+    
+    /// Creates a SwiftUI image from an Native image instance.
+    init(cgImage: CGImage) {
+        self.init(nativeImage: NativeImage(cgImage: cgImage))
+    }
+    
+}
+
 
 @available(macOS 13, iOS 16.0, tvOS 16.0, watchOS 9, *)
 public extension View {
