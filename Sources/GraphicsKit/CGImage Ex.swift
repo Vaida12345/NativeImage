@@ -213,7 +213,7 @@ public extension CGImage {
     /// - ``SaliencyType``
     @inlinable
     @available(macOS 13, iOS 16.0, tvOS 16.0, watchOS 9, *)
-    func fill(in size: CGSize, type: SaliencyType? = nil) -> CGImage? {
+    func fill(in size: CGSize, type: SaliencyType? = nil) async -> CGImage? {
         if self.size == size { return self }
         
         guard let type else {
@@ -283,11 +283,11 @@ public extension CGImage {
     /// - ``SaliencyType``
     @inlinable
     @available(macOS 13, iOS 16.0, tvOS 16.0, watchOS 9, *)
-    func fillInSquare(type: SaliencyType? = nil) -> CGImage? {
+    func fillInSquare(type: SaliencyType? = nil) async -> CGImage? {
         if self.size.isSquare { return self }
         
         let resultSize = CGSize.square(size.shorterSide)
-        return self.fill(in: resultSize, type: type)
+        return await self.fill(in: resultSize, type: type)
     }
     
     enum SaliencyType {
