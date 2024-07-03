@@ -180,7 +180,7 @@ public extension NativeImage {
             var message: String {
                 switch self {
                 case .cannotInferType(let string):
-                    "The extension `\(string) is not recognized."
+                    "The extension `\(string)` is not recognized."
                 }
             }
             
