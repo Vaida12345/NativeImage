@@ -10,6 +10,7 @@
 import Foundation
 import SwiftData
 
+
 extension NativeImage {
     
     /// The value transformer to store a `NativeImage` within `SwiftData` `Model`.
@@ -40,7 +41,7 @@ extension NativeImage {
         public override func transformedValue(_ value: Any?) -> Any? {
             let item = value as! NativeImage
             
-            return try! item.data(format: .heic)
+            return try? item.data(format: .heic, quality: 0.9)
         }
         
         public override func reverseTransformedValue(_ value: Any?) -> Any? {
@@ -68,5 +69,4 @@ extension NativeImage {
     }
     
 }
-
 #endif
