@@ -148,6 +148,7 @@ public extension NativeImage {
         
         
         internal static func inferredFrom(extension: String) throws -> ImageFormatOption {
+            precondition(!`extension`.isEmpty, "The provided file has empty extension. Please specify the extension, or state the image format explicitly by passing to `format`.")
             switch `extension`.lowercased() {
             case "png":
                 return .png
