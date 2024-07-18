@@ -63,6 +63,11 @@ public extension CGPoint {
     }
     
     @inlinable
+    static prefix func - (x: CGPoint) -> CGPoint {
+        CGPoint(x: -x.x, y: -x.y)
+    }
+    
+    @inlinable
     static func -= (lhs: inout CGPoint, rhs: CGPoint) {
         lhs = lhs - rhs
     }
