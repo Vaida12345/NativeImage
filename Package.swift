@@ -17,5 +17,5 @@ let package = Package(
     ], targets: [
         .target(name: "GraphicsKit"),
         .testTarget(name: "GraphicsKitTests", dependencies: ["GraphicsKit"])
-    ], swiftLanguageVersions: [.v6]
+    ], swiftLanguageModes: [.v5]
 )
