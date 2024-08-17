@@ -56,8 +56,6 @@ public extension NativeImage {
     ///
     /// - Parameters:
     ///   - source: The file representing the location of the asset.
-    ///
-    /// - Returns: The `NativeImage` instance initialized with the data at the passed-in `source` or `nil` if the object is not readable.
     @inlinable
     convenience init?(at source: URL) {
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
