@@ -6,16 +6,17 @@ import PackageDescription
 let package = Package(
     name: "GraphicsKit",
     platforms: [
-        .macOS(.v10_15),
-        .iOS(.v13),
-        .tvOS(.v13),
-        .watchOS(.v6),
-        .macCatalyst(.v13),
-        .visionOS(.v1)
+        .macOS(.v13),
+        .iOS(.v16),
+        .watchOS(.v9),
+        .tvOS(.v16)
     ], products: [
         .library(name: "GraphicsKit", targets: ["GraphicsKit"]),
+    ], dependencies: [
+        .package(name: "FinderItem",
+                 path: "~/Library/Mobile Documents/com~apple~CloudDocs/DataBase/Projects/Packages/FinderItem")
     ], targets: [
-        .target(name: "GraphicsKit"),
+        .target(name: "GraphicsKit", dependencies: ["FinderItem"]),
         .testTarget(name: "GraphicsKitTests", dependencies: ["GraphicsKit"])
     ], swiftLanguageModes: [.v5]
 )
