@@ -88,15 +88,14 @@ public extension FinderItem.LoadableContent {
     /// Returns the image at the location, if exists.
     static var image: FinderItem.LoadableContent<NativeImage, any Error> {
         .init { (source: FinderItem) throws -> NativeImage in
-            do {
-                let data = try Data(at: source)
-                if let image = NativeImage(data: data) {
-                    return image
-                } else {
-                    throw FinderItem.LoadError.encounteredNil(name: source.name, type: "image")
-                }
-            } catch {
-                throw FinderItem.FileError.parse(error)
+            guard source.isFile else {
+                throw FinderItem.LoadError.notAFile
+            }
+            let data = try Data(at: source)
+            if let image = NativeImage(data: data) {
+                return image
+            } else {
+                throw FinderItem.LoadError.encounteredNil(name: source.name, type: "image")
             }
         }
     }
