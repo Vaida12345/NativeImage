@@ -47,21 +47,6 @@ public extension View {
 }
 
 
-public extension NativeImage {
-    
-    /// Write a `NativeImage` as in the format of `option` to the `destination`.
-    ///
-    /// - Parameters:
-    ///   - destination: The `FinderItem` representing the path to save the image.
-    ///   - format: The format of the image, pass `nil` to auto infer from the extension name of `destination`.
-    ///   - quality: The image compression quality.
-    func write(to destination: FinderItem, format: ImageFormatOption? = nil, quality: Double = 1) throws {
-        try self.write(to: destination.url, format: format, quality: quality)
-    }
-    
-}
-
-
 public extension CGImage {
     
     /// Write a `CGImage` as in the format of `option` to the `destination`.
@@ -74,7 +59,10 @@ public extension CGImage {
     ///   - quality: The image compression quality.
     func write(to destination: FinderItem, format: NativeImage.ImageFormatOption? = nil, quality: CGFloat = 1) throws {
         do {
-            try self.write(to: destination.url, format: format, quality: quality)
+            let _option = format != nil ? format! : try NativeImage.ImageFormatOption.inferredFrom(extension: destination.extension)
+            let imageData = try self.data(format: _option, quality: quality)
+            
+            try imageData.write(to: destination)
         } catch {
             throw try FinderItem.FileError.parse(orThrow: error)
         }

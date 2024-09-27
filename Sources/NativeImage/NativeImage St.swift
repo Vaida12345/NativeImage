@@ -9,6 +9,7 @@
 import CoreGraphics
 import SwiftUI
 import UniformTypeIdentifiers
+import FinderItem
 
 
 public extension NativeImage {
@@ -57,11 +58,11 @@ public extension NativeImage {
     /// - Parameters:
     ///   - source: The file representing the location of the asset.
     @inlinable
-    convenience init?(at source: URL) {
+    convenience init?(at source: FinderItem) {
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
-        self.init(contentsOf: source)
+        self.init(contentsOf: source.url)
 #elseif canImport(UIKit)
-        try? self.init(data: Data(contentsOf: source))
+        try? self.init(data: Data(contentsOf: source.url))
 #endif
     }
     
@@ -96,8 +97,8 @@ public extension NativeImage {
     ///   - destination: The file representing the path to save the image.
     ///   - format: The format of the image, pass `nil` to auto infer from the extension name of `destination`.
     ///   - quality: The image compression quality.
-    func write(to destination: URL, format: ImageFormatOption? = nil, quality: Double = 1) throws {
-        let _option = format != nil ? format! : try NativeImage.ImageFormatOption.inferredFrom(extension: destination.pathExtension)
+    func write(to destination: FinderItem, format: ImageFormatOption? = nil, quality: Double = 1) throws {
+        let _option = format != nil ? format! : try NativeImage.ImageFormatOption.inferredFrom(extension: destination.extension)
         let imageData = try self.data(format: _option, quality: quality)
         
         try imageData.write(to: destination)

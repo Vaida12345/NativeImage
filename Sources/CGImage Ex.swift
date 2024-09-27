@@ -174,21 +174,6 @@ public extension CGImage {
         return context.makeImage()
     }
     
-    /// Write a `CGImage` as in the format of `option` to the `destination`.
-    ///
-    /// A `quality` value of 1.0 specifies to use lossless compression if destination format supports it. A value of 0.0 implies to use maximum compression.
-    ///
-    /// - Parameters:
-    ///   - destination: The file representing the path to save the image.
-    ///   - format: The format of the image, pass `nil` to auto infer from the extension name of `destination`.
-    ///   - quality: The image compression quality.
-    func write(to destination: URL, format: NativeImage.ImageFormatOption? = nil, quality: CGFloat = 1) throws {
-        let _option = format != nil ? format! : try NativeImage.ImageFormatOption.inferredFrom(extension: destination.pathExtension)
-        let imageData = try self.data(format: _option, quality: quality)
-        
-        try imageData.write(to: destination)
-    }
-    
 }
 
 
