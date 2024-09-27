@@ -1,4 +1,4 @@
-# ``GraphicsKit/NativeImage``
+# ``NativeImage/NativeImage``
 
 ## Topics
 

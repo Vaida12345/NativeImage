@@ -1,4 +1,4 @@
-# ``GraphicsKit``
+# ``NativeImage``
 
 Extended CoreGraphics functionalities & Native Image.
 
