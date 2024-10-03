@@ -26,7 +26,7 @@ public extension View {
     ///   - scale: The scale to the view
     @inlinable
     @MainActor
-    func render(to destination: FinderItem, format: NativeImage.ImageFormatOption = .pdf, scale: Double = 1) {
+    func render(to destination: FinderItem, format: NativeImage.ImageFormatOption = .pdf, scale: Double = 2) {
         let renderer = ImageRenderer(content: self)
         if format == .pdf {
             renderer.render { size, render in
