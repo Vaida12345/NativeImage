@@ -13,10 +13,9 @@ let package = Package(
     ], products: [
         .library(name: "NativeImage", targets: ["NativeImage"]),
     ], dependencies: [
-        .package(name: "FinderItem",
-                 path: "../FinderItem")
+        .package(url: "https://github.com/Vaida12345/FinderItem", from: "1.0.0")
     ], targets: [
         .target(name: "NativeImage", dependencies: ["FinderItem"], path: "Sources"),
         .testTarget(name: "Tests", dependencies: ["NativeImage"], path: "Tests")
-    ], swiftLanguageModes: [.v5]
+    ], swiftLanguageModes: [.v6]
 )

@@ -5,7 +5,7 @@
 ### Working with CGImage
 
 - ``AppKit/NSImage/cgImage``
-- ``AppKit/NSImage/init(cgImage:)-yvnn``
+- ``AppKit/NSImage/init(cgImage:)-zzjz``
 
 ### Inspecting Raw Image Properties
 
