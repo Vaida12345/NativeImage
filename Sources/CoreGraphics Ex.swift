@@ -63,13 +63,13 @@ public extension CGPoint {
     }
     
     @inlinable
-    static prefix func - (x: CGPoint) -> CGPoint {
-        CGPoint(x: -x.x, y: -x.y)
+    static func -= (lhs: inout CGPoint, rhs: CGPoint) {
+        lhs = lhs - rhs
     }
     
     @inlinable
-    static func -= (lhs: inout CGPoint, rhs: CGPoint) {
-        lhs = lhs - rhs
+    static prefix func - (x: CGPoint) -> CGPoint {
+        CGPoint(x: -x.x, y: -x.y)
     }
     
 }
@@ -204,6 +204,31 @@ public extension CGSize {
         
         /// The vertical side
         case height
+    }
+    
+    @inlinable
+    static func + (lhs: CGSize, rhs: CGSize) -> CGSize {
+        CGSize(width: lhs.width + rhs.width, height: lhs.height + rhs.height)
+    }
+    
+    @inlinable
+    static func += (lhs: inout CGSize, rhs: CGSize) {
+        lhs = lhs + rhs
+    }
+    
+    @inlinable
+    static func - (lhs: CGSize, rhs: CGSize) -> CGSize {
+        CGSize(width: lhs.width - rhs.width, height: lhs.height - rhs.height)
+    }
+    
+    @inlinable
+    static func -= (lhs: inout CGSize, rhs: CGSize) {
+        lhs = lhs - rhs
+    }
+    
+    @inlinable
+    static prefix func - (x: CGSize) -> CGSize {
+        CGSize(width: -x.width, height: -x.height)
     }
     
 }
