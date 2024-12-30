@@ -19,5 +19,5 @@ let package = Package(
     ], targets: [
         .target(name: "NativeImage", dependencies: ["FinderItem"], path: "Sources"),
         .testTarget(name: "Tests", dependencies: ["NativeImage"], path: "Tests")
-    ], swiftLanguageModes: [.v6]
+    ]
 )
