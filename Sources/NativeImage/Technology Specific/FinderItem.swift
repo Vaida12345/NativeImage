@@ -77,13 +77,13 @@ public extension FinderItem.LoadableContent {
     static var image: FinderItem.LoadableContent<NativeImage, any Error> {
         .init { (source: FinderItem) throws -> NativeImage in
             guard source.isFile else {
-                throw FinderItem.LoadError.notAFile
+                throw FinderItem.FileError(code: .cannotRead(reason: .corruptFile), source: source)
             }
             let data = try Data(at: source)
             if let image = NativeImage(data: data) {
                 return image
             } else {
-                throw FinderItem.LoadError.encounteredNil(name: source.name, type: "image")
+                throw FinderItem.FileError(code: .cannotRead(reason: .corruptFile), source: source)
             }
         }
     }
@@ -116,7 +116,7 @@ public extension FinderItem.LoadableContent {
                let scaled = image.resized(to: image.size.aspectRatio(.fit, in: size)) {
                 return NativeImage(cgImage: scaled)
             } else {
-                throw FinderItem.LoadError.encounteredNil(name: source.name, type: "icon")
+                throw FinderItem.FileError(code: .cannotRead(reason: .corruptFile), source: source)
             }
         }
     }
