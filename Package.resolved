@@ -2,12 +2,21 @@
   "originHash" : "962bbf7b353a04f01bc20ac2cecb54eee83734db7b48ac6a382d6ccdeec2eea2",
   "pins" : [
     {
+      "identity" : "detaileddescription",
+      "kind" : "remoteSourceControl",
+      "location" : "https://www.github.com/Vaida12345/DetailedDescription",
+      "state" : {
+        "revision" : "d9726110ad54474071bf7fac6c2d256d44b1fa63",
+        "version" : "2.0.7"
+      }
+    },
+    {
       "identity" : "essentials",
       "kind" : "remoteSourceControl",
       "location" : "https://www.github.com/Vaida12345/Essentials",
       "state" : {
-        "revision" : "98f2a8a5861fdf857095177de33a565b0331c06e",
-        "version" : "1.0.20"
+        "revision" : "d0beafc3d2e72d7e094a26c20ee5db6dfd86122c",
+        "version" : "1.1.2"
       }
     },
     {
@@ -15,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://www.github.com/Vaida12345/FinderItem",
       "state" : {
-        "revision" : "480f7028c0d49545baf1a7fb13f4bd9c8adad4f7",
-        "version" : "1.0.13"
+        "revision" : "750a4947960dec48a6c3aea8af67d521dc1cc520",
+        "version" : "1.0.19"
       }
     }
   ],
