@@ -273,3 +273,18 @@ extension CGRect {
     }
     
 }
+
+
+extension CGAffineTransform {
+    
+    /// Initialize a translation from a `CGPoint`.
+    public init(translation: CGPoint) {
+        self.init(translationX: translation.x, y: translation.y)
+    }
+    
+    /// Initialize a translation from a `CGPoint`.
+    public init(scale: CGPoint) {
+        self.init(scaleX: scale.x, y: scale.y)
+    }
+    
+}
