@@ -22,26 +22,31 @@ public extension View {
     ///
     /// - Parameters:
     ///   - destination: The destination
-    ///   - format: The resulting format
+    ///   - format: The resulting format, if `nil`, the format is auto-inferred.
     ///   - scale: The scale to the view
     @inlinable
     @MainActor
-    func render(to destination: FinderItem, format: NativeImage.ImageFormatOption = .pdf, scale: Double = 2) {
+    func render(to destination: FinderItem, format: NativeImage.ImageFormatOption? = nil, scale: Double = 2) throws {
         let renderer = ImageRenderer(content: self)
-        if format == .pdf {
+        if format == .pdf || destination.extension == "pdf" {
+            var succeed = false
             renderer.render { size, render in
                 var mediaBox = CGRect(origin: .zero, size: size.scaled(by: scale))
                 guard let consumer = CGDataConsumer(url: destination.url as CFURL),
-                      let pdfContext =  CGContext(consumer: consumer, mediaBox: &mediaBox, nil) else { return }
+                      let pdfContext = CGContext(consumer: consumer, mediaBox: &mediaBox, nil) else { return }
                 pdfContext.beginPDFPage(nil)
                 pdfContext.scaleBy(x: scale, y: scale)
                 render(pdfContext)
                 pdfContext.endPDFPage()
                 pdfContext.closePDF()
+                succeed = true
+            }
+            if !succeed {
+                throw FinderItem.FileError(code: .cannotWrite(reason: .noPermission), source: destination)
             }
         } else {
             renderer.scale = scale
-            try? renderer.cgImage?.write(to: destination, format: format)
+            try renderer.cgImage?.write(to: destination, format: format)
         }
     }
 }
