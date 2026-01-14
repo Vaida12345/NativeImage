@@ -58,6 +58,8 @@ public extension CGImage {
     ///
     /// A `quality` value of 1.0 specifies to use lossless compression if destination format supports it. A value of 0.0 implies to use maximum compression.
     ///
+    /// - Tip: To set image metadata, use ``CGImage/data(format:quality:properties:)`` instead.
+    ///
     /// - Parameters:
     ///   - destination: The `FinderItem` representing the path to save the image.
     ///   - format: The format of the image, pass `nil` to auto infer from the extension name of `destination`.

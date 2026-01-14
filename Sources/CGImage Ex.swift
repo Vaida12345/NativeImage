@@ -39,6 +39,7 @@ public extension CGImage {
     /// - Parameters:
     ///   - format: The format of the image.
     ///   - quality: The quality of image compression.
+    ///   - properties: The set of properties you would like to associate with the image.
     ///
     /// - throws: ``DataError``
     ///
@@ -46,7 +47,7 @@ public extension CGImage {
     /// ### Potential Error
     /// - ``DataError``
     @inlinable
-    func data(format: NativeImage.ImageFormatOption = .png, quality: CGFloat = 1) throws -> Data {
+    func data(format: NativeImage.ImageFormatOption = .png, quality: CGFloat = 1, properties: [CFString : Any] = [:]) throws -> Data {
         guard
             let mutableData = CFDataCreateMutable(nil, 0),
             let destination = CGImageDestinationCreateWithData(mutableData, format.identifier as CFString, format == .icns ? 10 : 1, nil)
@@ -54,24 +55,30 @@ public extension CGImage {
         
         switch format {
         case .icns:
-            [Int](0 ..< 2*6)
-                .compactMap { i -> (index: Int, image: CGImage)? in
-                    if i == 4 || i == 5 { return nil } // Error would be shown when trying to add 64 x 64 icon.
-                    
-                    let ii = i % 2 + 1
-                    let width = pow(2.0, Double(i / 2 + ii + 3))
-                    
-                    guard let image = self.resized(to: .square(width)) else { return nil }
-                    return (i, image)
-                }
-                .forEach { i, image in
-                    let ii = i % 2 + 1
-                    CGImageDestinationAddImage(destination, image, [kCGImagePropertyDPIWidth: 72 * ii, kCGImagePropertyDPIHeight: 72 * ii] as CFDictionary)
-                }
+            
+            for scale in 0 ..< 2*6 {
+                if scale == 4 || scale == 5 { continue } // Error would be shown when trying to add 64 x 64 icon.
+                
+                let power = scale % 2 + 1
+                let width = pow(2.0, Double(scale / 2 + power + 3))
+                
+                guard let image = self.resized(to: .square(width)) else { continue }
+                
+                let dimensions = [kCGImagePropertyDPIWidth: 72 * power, kCGImagePropertyDPIHeight: 72 * power]
+                CGImageDestinationAddImage(
+                    destination,
+                    image,
+                    properties.merging(dimensions, uniquingKeysWith: { lhs, _ in lhs }) as CFDictionary
+                )
+            }
             
             
         default:
-            CGImageDestinationAddImage(destination, self, [kCGImageDestinationLossyCompressionQuality: quality] as CFDictionary)
+            CGImageDestinationAddImage(
+                destination,
+                self,
+                properties.merging([kCGImageDestinationLossyCompressionQuality: quality], uniquingKeysWith: { lhs, _ in lhs }) as CFDictionary
+            )
         }
         
         guard CGImageDestinationFinalize(destination) else { throw DataError.invalidFormat }
