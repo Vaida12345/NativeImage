@@ -31,18 +31,25 @@ public extension CGContext {
                 instance.bitsPerComponent - bitsPerComponent
             }
         
-        return CGContext(data: nil,
-                         width: Int(size.width),
-                         height: Int(size.height),
-                         bitsPerComponent: preset!.bitsPerComponent,
-                         bytesPerRow: 0, space: space,
-                         bitmapInfo: preset!.bitmapInfo) ??
-        CGContext(data: nil,
-                  width: Int(size.width),
-                  height: Int(size.height),
-                  bitsPerComponent: preset!.bitsPerComponent,
-                  bytesPerRow: 0, space: CGColorSpace(name: CGColorSpace.sRGB)!,
-                  bitmapInfo: preset!.bitmapInfo)!
+        let optimal = CGContext(
+            data: nil,
+            width: Int(size.width),
+            height: Int(size.height),
+            bitsPerComponent: preset!.bitsPerComponent,
+            bytesPerRow: 0, space: space,
+            bitmapInfo: preset!.bitmapInfo
+        )
+        
+        let fallback = CGContext(
+            data: nil,
+            width: Int(size.width),
+            height: Int(size.height),
+            bitsPerComponent: preset!.bitsPerComponent,
+            bytesPerRow: 0, space: CGColorSpace(name: preset!.bitsPerComponent == 8 ? CGColorSpace.sRGB : CGColorSpace.extendedSRGB)!,
+            bitmapInfo: preset!.bitmapInfo
+        )!
+        
+        return optimal ?? fallback
     }
     
     
