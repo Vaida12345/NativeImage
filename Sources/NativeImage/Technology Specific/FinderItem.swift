@@ -25,7 +25,6 @@ public extension View {
     ///   - destination: The destination
     ///   - format: The resulting format, if `nil`, the format is auto-inferred.
     ///   - scale: The scale to the view
-    @inlinable
     @MainActor
     func render(to destination: FinderItem, format: NativeImage.ImageFormatOption? = nil, scale: Double = 2) throws {
         let renderer = ImageRenderer(content: self)
