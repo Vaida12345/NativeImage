@@ -43,7 +43,7 @@ public extension View {
                 succeed = true
             }
             if !succeed {
-                throw FinderItem.FileError(code: .cannotWrite(reason: .noPermission), source: destination)
+                throw FinderItem.FileError(.noPermission, source: destination, intent: .writing)
             }
         } else {
             renderer.scale = scale
@@ -65,14 +65,14 @@ public extension CGImage {
     ///   - destination: The `FinderItem` representing the path to save the image.
     ///   - format: The format of the image, pass `nil` to auto infer from the extension name of `destination`.
     ///   - quality: The image compression quality.
-    func write(to destination: FinderItem, format: NativeImage.ImageFormatOption? = nil, quality: CGFloat = 1) throws {
+    func write(to destination: FinderItem, format: NativeImage.ImageFormatOption? = nil, quality: CGFloat = 1) throws(FinderItem.FileError) {
         do {
             let _option = format != nil ? format! : try NativeImage.ImageFormatOption.inferredFrom(extension: destination.extension)
             let imageData = try self.data(format: _option, quality: quality)
             
             try imageData.write(to: destination)
         } catch {
-            throw try FinderItem.FileError.parse(orThrow: error)
+            throw FinderItem.FileError(error, source: destination, intent: .writing)
         }
     }
     
@@ -85,13 +85,13 @@ public extension FinderItem.LoadableContent where Result == NativeImage {
     static var image: FinderItem.LoadableContent<NativeImage, any Error> {
         .init { (source: FinderItem) throws -> NativeImage in
             guard source.isFile else {
-                throw FinderItem.FileError(code: .cannotRead(reason: .corruptFile), source: source)
+                throw FinderItem.FileError(.isDirectory, source: source, intent: .reading)
             }
             let data = try Data(at: source)
             if let image = NativeImage(data: data) {
                 return image
             } else {
-                throw FinderItem.FileError(code: .cannotRead(reason: .corruptFile), source: source)
+                throw FinderItem.FileError(.corruptFile, source: source, intent: .reading)
             }
         }
     }
@@ -103,14 +103,13 @@ public extension FinderItem.LoadableContent where Result == CGImage {
     static var cgImage: FinderItem.LoadableContent<CGImage, any Error> {
         .init { (source: FinderItem) throws -> CGImage in
             guard source.isFile else {
-                throw FinderItem.FileError(code: .cannotRead(reason: .corruptFile), source: source)
+                throw FinderItem.FileError(.isDirectory, source: source, intent: .reading)
             }
             let data = try Data(at: source)
-            if let image = NativeImage(data: data) {
-                guard let cgImage = image.cgImage else { throw FinderItem.FileError(code: .cannotRead(reason: .corruptFile), source: source) }
+            if let cgImage = NativeImage(data: data)?.cgImage {
                 return cgImage
             } else {
-                throw FinderItem.FileError(code: .cannotRead(reason: .corruptFile), source: source)
+                throw FinderItem.FileError(.corruptFile, source: source, intent: .reading)
             }
         }
     }
@@ -134,7 +133,7 @@ public extension FinderItem.AsyncLoadableContent where Result == NativeImage {
     @available(*, deprecated, renamed: "bestIcon", message: "It is dangerous to use this method directly, as it may produce unexpected results.")
     static func icon(size: CGSize? = nil) -> FinderItem.AsyncLoadableContent<NativeImage, any Error> {
         .init { (source: FinderItem) throws -> NativeImage in
-            guard source.exists else { throw FinderItem.FileError(code: .cannotRead(reason: .noSuchFile), source: source) }
+            guard source.exists else { throw FinderItem.FileError(.noSuchFile, source: source, intent: .reading) }
             let icons = NSWorkspace.shared.icon(forFile: source.path)
             
             guard let size else { return icons }
@@ -144,7 +143,7 @@ public extension FinderItem.AsyncLoadableContent where Result == NativeImage {
                let scaled = image.resized(to: image.size.aspectRatio(.fit, in: size)) {
                 return NativeImage(cgImage: scaled)
             } else {
-                throw FinderItem.FileError(code: .cannotRead(reason: .corruptFile), source: source)
+                throw FinderItem.FileError(.corruptFile, source: source, intent: .reading)
             }
         }
     }
@@ -161,7 +160,7 @@ public extension FinderItem.AsyncLoadableContent where Result == NativeImage {
     /// - SeeAlso: ``bestIcon(size:)``.
     static func preview(size: CGSize) -> FinderItem.AsyncLoadableContent<NativeImage, any Error> {
         .init { source in
-            guard source.exists else { throw FinderItem.FileError(code: .cannotRead(reason: .noSuchFile), source: source) }
+            guard source.exists else { throw FinderItem.FileError(.noSuchFile, source: source, intent: .reading) }
             do {
                 return try await generateImage(type: .thumbnail, url: source.url, size: size).0
             } catch {
@@ -206,7 +205,7 @@ public extension FinderItem.AsyncLoadableContent where Result == (icon: NativeIm
     static func bestIcon(size: CGSize) -> FinderItem.AsyncLoadableContent<(icon: NativeImage, representation: ThumbnailRepresentation), any Error> {
         .init { source in
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
-            if (try? source.attributes.hasCustomIcon) == true {
+            if source.attributes.hasCustomIcon {
                 return try await (source.load(.icon(size: size)), .customIcon)
             } else {
                 if let thumbnail = try? await generateImage(type: .thumbnail, url: source.url, size: size), thumbnail.1 == .thumbnail || thumbnail.1 == .lowQualityThumbnail {
