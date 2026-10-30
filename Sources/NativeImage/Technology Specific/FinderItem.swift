@@ -206,7 +206,7 @@ public extension FinderItem.AsyncLoadableContent where Result == (icon: NativeIm
     static func bestIcon(size: CGSize) -> FinderItem.AsyncLoadableContent<(icon: NativeImage, representation: ThumbnailRepresentation), any Error> {
         .init { source in
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
-            if try source.attributes.hasCustomIcon {
+            if (try? source.attributes.hasCustomIcon) == true {
                 return try await (source.load(.icon(size: size)), .customIcon)
             } else {
                 if let thumbnail = try? await generateImage(type: .thumbnail, url: source.url, size: size), thumbnail.1 == .thumbnail || thumbnail.1 == .lowQualityThumbnail {
